@@ -16,6 +16,7 @@ use MyDaniel\Paseto\Exceptions\TokenBlacklistedException;
 use MyDaniel\Paseto\Exceptions\TokenExpiredException;
 use MyDaniel\Paseto\Exceptions\TokenInvalidException;
 use ParagonIE\Paseto\Exception\PasetoException as ParagonPasetoException;
+use Illuminate\Support\Collection;
 
 /**
  * Paseto authentication guard for Laravel.
@@ -157,6 +158,18 @@ class PasetoGuard implements Guard
 
             throw new TokenInvalidException();
         }
+    }
+
+    /**
+     * Get the token payload as a collection.
+     * 
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function payload(): ?Collection
+    {
+        $payload = $this->getTokenPayload();
+
+        return $payload ? collect($payload) : null;
     }
 
     /**
